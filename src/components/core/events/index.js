@@ -8,6 +8,7 @@ import onTouchEnd from './onTouchEnd';
 import onResize from './onResize';
 import onClick from './onClick';
 
+
 function attachEvents() {
   const swiper = this;
   const {
@@ -29,7 +30,7 @@ function attachEvents() {
   if (process.env.TARGET !== 'desktop') {
     if (!Support.touch && (Support.pointerEvents || Support.prefixedPointerEvents)) {
       target.addEventListener(touchEvents.start, swiper.onTouchStart, false);
-      document.addEventListener(touchEvents.move, swiper.onTouchMove, capture);
+      document.addEventListener(touchEvents.move, swiper.onTouchMove, Support.passiveListener ? { passive: true, capture } : capture);
       document.addEventListener(touchEvents.end, swiper.onTouchEnd, false);
     } else {
       if (Support.touch) {

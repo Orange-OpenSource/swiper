@@ -108,7 +108,7 @@ export default function (event) {
 
   if (!data.isMoved) {
     if (params.loop) {
-      swiper.loopFix();
+      // swiper.loopFix();
     }
     data.startTranslate = swiper.getTranslate();
     swiper.setTransition(0);
@@ -182,7 +182,7 @@ export default function (event) {
   // Update active index in free mode
   if (params.freeMode || params.watchSlidesProgress || params.watchSlidesVisibility) {
     swiper.updateActiveIndex();
-    swiper.updateSlidesClasses();
+    // swiper.updateSlidesClasses();
   }
   if (params.freeMode) {
     // Velocity
