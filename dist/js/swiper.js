@@ -2812,7 +2812,9 @@
     }
 
     if (!data.isMoved) {
-      if (params.loop) ;
+      if (params.loop) {
+        swiper.loopFix();
+      }
       data.startTranslate = swiper.getTranslate();
       swiper.setTransition(0);
       if (swiper.animating) {
@@ -3036,7 +3038,7 @@
           } else {
             newPosition = swiper.maxTranslate();
           }
-          if (params.loop && params.centeredSlides) { needsLoopFix = true; }
+          if (params.loop) { needsLoopFix = true; }
         } else if (newPosition > swiper.minTranslate()) {
           if (params.freeModeMomentumBounce) {
             if (newPosition - swiper.minTranslate() > bounceAmount) {
@@ -3048,7 +3050,7 @@
           } else {
             newPosition = swiper.minTranslate();
           }
-          if (params.loop && params.centeredSlides) { needsLoopFix = true; }
+          if (params.loop) { needsLoopFix = true; }
         } else if (params.freeModeSticky) {
           var nextSlide;
           for (var j = 0; j < snapGrid.length; j += 1) {

@@ -108,7 +108,7 @@ export default function (event) {
 
   if (!data.isMoved) {
     if (params.loop) {
-      // swiper.loopFix();
+      swiper.loopFix();
     }
     data.startTranslate = swiper.getTranslate();
     swiper.setTransition(0);

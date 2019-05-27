@@ -127,7 +127,7 @@ export default function (event) {
         } else {
           newPosition = swiper.maxTranslate();
         }
-        if (params.loop && params.centeredSlides) needsLoopFix = true;
+        if (params.loop) needsLoopFix = true;
       } else if (newPosition > swiper.minTranslate()) {
         if (params.freeModeMomentumBounce) {
           if (newPosition - swiper.minTranslate() > bounceAmount) {
@@ -139,7 +139,7 @@ export default function (event) {
         } else {
           newPosition = swiper.minTranslate();
         }
-        if (params.loop && params.centeredSlides) needsLoopFix = true;
+        if (params.loop) needsLoopFix = true;
       } else if (params.freeModeSticky) {
         let nextSlide;
         for (let j = 0; j < snapGrid.length; j += 1) {

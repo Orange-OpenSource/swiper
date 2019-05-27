@@ -1926,7 +1926,9 @@ function onTouchMove (event) {
   }
 
   if (!data.isMoved) {
-    if (params.loop) ;
+    if (params.loop) {
+      swiper.loopFix();
+    }
     data.startTranslate = swiper.getTranslate();
     swiper.setTransition(0);
     if (swiper.animating) {
@@ -2147,7 +2149,7 @@ function onTouchEnd (event) {
         } else {
           newPosition = swiper.maxTranslate();
         }
-        if (params.loop && params.centeredSlides) needsLoopFix = true;
+        if (params.loop) needsLoopFix = true;
       } else if (newPosition > swiper.minTranslate()) {
         if (params.freeModeMomentumBounce) {
           if (newPosition - swiper.minTranslate() > bounceAmount) {
@@ -2159,7 +2161,7 @@ function onTouchEnd (event) {
         } else {
           newPosition = swiper.minTranslate();
         }
-        if (params.loop && params.centeredSlides) needsLoopFix = true;
+        if (params.loop) needsLoopFix = true;
       } else if (params.freeModeSticky) {
         let nextSlide;
         for (let j = 0; j < snapGrid.length; j += 1) {
