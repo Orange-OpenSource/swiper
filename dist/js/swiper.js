@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: May 23, 2019
+ * Released on: May 27, 2019
  */
 
 (function (global, factory) {
@@ -2104,7 +2104,19 @@
     var swiper = this;
     var newIndex = index;
     if (swiper.params.loop) {
-      newIndex += swiper.loopedSlides;
+      if (swiper.activeIndex <= swiper.slides.length / 2 && newIndex >= swiper.slides.length - 1 - 2 * swiper.loopedSlides - swiper.params.slidesPerView) {
+        newIndex = newIndex - swiper.slides.length + 1 + 3 * swiper.loopedSlides;
+        swiper.once('transitionEnd', function () {
+          swiper.loopFix();
+        });
+      } else if (swiper.activeIndex >= swiper.slides.length / 2 && newIndex === 0) {
+        newIndex = newIndex + swiper.slides.length - swiper.loopedSlides;
+        swiper.once('transitionEnd', function () {
+          swiper.loopFix();
+        });
+      } else {
+        newIndex += swiper.loopedSlides;
+      }
     }
 
     return swiper.slideTo(newIndex, speed, runCallbacks, internal);
@@ -2694,7 +2706,6 @@
   }
 
   function onTouchMove (event) {
-    // eslint-disable-next-line
     var swiper = this;
     var data = swiper.touchEventsData;
     var params = swiper.params;
@@ -3250,7 +3261,7 @@
     {
       if (!Support.touch && (Support.pointerEvents || Support.prefixedPointerEvents)) {
         target.addEventListener(touchEvents.start, swiper.onTouchStart, false);
-        doc.addEventListener(touchEvents.move, swiper.onTouchMove, Support.passiveListener ? { passive: true, capture: capture } : capture);
+        doc.addEventListener(touchEvents.move, swiper.onTouchMove, capture);
         doc.addEventListener(touchEvents.end, swiper.onTouchEnd, false);
       } else {
         if (Support.touch) {

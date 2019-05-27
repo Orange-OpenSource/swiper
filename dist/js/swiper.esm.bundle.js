@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: May 23, 2019
+ * Released on: May 27, 2019
  */
 
 import { $, addClass, removeClass, hasClass, toggleClass, attr, removeAttr, data, transform, transition as transition$1, on, off, trigger, transitionEnd as transitionEnd$1, outerWidth, outerHeight, offset, css, each, html, text, is, index, eq, append, prepend, next, nextAll, prev, prevAll, parent, parents, closest, find, children, remove, add, styles } from 'dom7/dist/dom7.modular';
@@ -1252,7 +1252,19 @@ function slideToLoop (index = 0, speed = this.params.speed, runCallbacks = true,
   const swiper = this;
   let newIndex = index;
   if (swiper.params.loop) {
-    newIndex += swiper.loopedSlides;
+    if (swiper.activeIndex <= swiper.slides.length / 2 && newIndex >= swiper.slides.length - 1 - 2 * swiper.loopedSlides - swiper.params.slidesPerView) {
+      newIndex = newIndex - swiper.slides.length + 1 + 3 * swiper.loopedSlides;
+      swiper.once('transitionEnd', () => {
+        swiper.loopFix();
+      });
+    } else if (swiper.activeIndex >= swiper.slides.length / 2 && newIndex === 0) {
+      newIndex = newIndex + swiper.slides.length - swiper.loopedSlides;
+      swiper.once('transitionEnd', () => {
+        swiper.loopFix();
+      });
+    } else {
+      newIndex += swiper.loopedSlides;
+    }
   }
 
   return swiper.slideTo(newIndex, speed, runCallbacks, internal);
@@ -1810,7 +1822,6 @@ function onTouchStart (event) {
 }
 
 function onTouchMove (event) {
-  // eslint-disable-next-line
   const swiper = this;
   const data = swiper.touchEventsData;
   const { params, touches, rtlTranslate: rtl } = swiper;
@@ -2357,7 +2368,7 @@ function attachEvents() {
   {
     if (!Support.touch && (Support.pointerEvents || Support.prefixedPointerEvents)) {
       target.addEventListener(touchEvents.start, swiper.onTouchStart, false);
-      document.addEventListener(touchEvents.move, swiper.onTouchMove, Support.passiveListener ? { passive: true, capture } : capture);
+      document.addEventListener(touchEvents.move, swiper.onTouchMove, capture);
       document.addEventListener(touchEvents.end, swiper.onTouchEnd, false);
     } else {
       if (Support.touch) {
